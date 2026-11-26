@@ -1,0 +1,78 @@
+# Initial, configurable customer validation policy. Rule implementation is added in a later phase.
+dataset:
+  name: customer
+  max_demo_records: 10000
+  allow_extra_columns: true
+
+schema:
+  required_columns:
+    - customer_id
+    - first_name
+    - last_name
+    - email
+    - phone
+    - age
+    - signup_date
+    - country
+    - customer_status
+
+rules:
+  - id: required_customer_id
+    type: required
+    column: customer_id
+    enabled: true
+  - id: required_first_name
+    type: required
+    column: first_name
+    enabled: true
+  - id: required_last_name
+    type: required
+    column: last_name
+    enabled: true
+  - id: required_email
+    type: required
+    column: email
+    enabled: true
+  - id: required_signup_date
+    type: required
+    column: signup_date
+    enabled: true
+  - id: required_country
+    type: required
+    column: country
+    enabled: true
+  - id: unique_customer_id
+    type: unique
+    column: customer_id
+    enabled: true
+  - id: valid_email
+    type: email
+    column: email
+    enabled: true
+  - id: valid_phone
+    type: phone
+    column: phone
+    enabled: true
+    allow_blank: true
+    min_digits: 7
+    max_digits: 15
+  - id: age_range
+    type: range
+    column: age
+    enabled: true
+    data_type: integer
+    min: 18
+    max: 100
+  - id: valid_signup_date
+    type: date
+    column: signup_date
+    enabled: true
+    formats:
+      - yyyy-MM-dd
+      - MM/dd/yyyy
+      - dd-MM-yyyy
+  - id: valid_customer_status
+    type: allowed_values
+    column: customer_status
+    enabled: true
+    values: [active, inactive, pending]
