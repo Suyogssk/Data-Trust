@@ -25,9 +25,15 @@ class PipelineResult:
     explanation: str
     explanation_source: str
     rules_applied: tuple[str, ...]
+    validated: DataFrame
     valid: DataFrame
     invalid: DataFrame
     stored_paths: dict[str, str]
+
+    def release(self) -> None:
+        self.validated.unpersist(blocking=False)
+        self.valid.unpersist(blocking=False)
+        self.invalid.unpersist(blocking=False)
 
 
 def get_spark(app_name: str = "ai-data-quality-monitor") -> SparkSession:
@@ -66,4 +72,8 @@ def run_pipeline(
     metrics = quality_metrics(validation.frame, validation.dataset_issues)
     explanation, source_name = explain(metrics)
     stored = save_layers(source, valid, invalid, storage_root)
-    return PipelineResult(profile, metrics, explanation, source_name, validation.rules_applied, valid, invalid, stored)
+    source.unpersist(blocking=False)
+    return PipelineResult(
+        profile, metrics, explanation, source_name, validation.rules_applied,
+        validation.frame, valid, invalid, stored,
+    )

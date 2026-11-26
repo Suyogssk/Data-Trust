@@ -2,7 +2,7 @@
 
 ## 60-second explanation
 
-I built a data quality monitoring application for customer records arriving as CSV or Excel. It profiles the input, runs configurable PySpark checks for required fields, duplicate customer IDs, email and phone formats, age range, dates, and allowed status values, then writes the original, valid, and quarantined datasets as separate Parquet layers. A Streamlit dashboard shows metrics and lets users download JSON, CSV, and Excel reports. Optional LLM explanations receive aggregate metrics only; the application has a deterministic fallback and never changes records automatically. I verified the local workflow against 10,000 generated records and added focused ingestion, validation, metrics, and report checks. The current upload boundary uses Pandas and the local demo limit is 10,000, so I am not claiming large-scale production performance.
+I built a data quality monitoring application for customer records arriving as CSV or Excel. It profiles the input, runs configurable PySpark checks for required fields, duplicate customer IDs, email and phone formats, age range, dates, and allowed status values, then writes the original, valid, and quarantined datasets as separate Parquet layers. A Streamlit dashboard shows metrics and lets users download JSON, CSV, and Excel reports. Optional LLM explanations receive aggregate metrics only; the application has a deterministic fallback and never changes records automatically. I verified the local workflow against 10,000 generated records and added focused ingestion, profiling, validation, metrics, and report checks. The current upload boundary uses Pandas and the local demo limit is 10,000, so I am not claiming large-scale production performance.
 
 ## Three-minute explanation
 
@@ -14,7 +14,7 @@ Validation rules live in YAML and are evaluated independently with Spark express
 
 The Streamlit app exposes upload, overview metrics, profiling, applied rules, quarantine inspection, AI explanations, and downloads. The AI path sends only aggregates, not records or cell values. If configuration is absent or the API fails, a rule-based summary remains available. Reports include issue counts and quarantined rows. On Windows without Hadoop `winutils.exe`, the bounded local demo uses PyArrow to write Parquet; on a normal Hadoop-capable environment the storage module uses Spark's Parquet writer.
 
-I tested the workflow on 10,000 synthetic rows and added six automated checks. This is a functional validation point, not a scale benchmark. Larger ingestion, durable cloud storage, authentication, and managed production monitoring remain future engineering work.
+I tested the workflow on 10,000 synthetic rows and added eight automated checks. This is a functional validation point, not a scale benchmark. Larger ingestion, durable cloud storage, authentication, and managed production monitoring remain future engineering work.
 
 ## Architecture and data flow
 

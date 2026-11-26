@@ -49,6 +49,9 @@ if page == "Upload & run":
     if st.button("Run quality checks", type="primary", disabled=upload is None):
         try:
             with st.status("Processing dataset with PySpark…", expanded=True) as status:
+                previous = st.session_state.get("pipeline_result")
+                if previous is not None:
+                    previous.release()
                 loaded = load_upload(upload.name, upload.getvalue())
                 st.write(f"Read {len(loaded.frame):,} records and {len(loaded.frame.columns)} columns.")
                 new_result = run_pipeline(loaded, RULES, DATA_ROOT, max_records=10_000, spark=get_spark())

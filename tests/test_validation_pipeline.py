@@ -5,6 +5,7 @@ from pathlib import Path
 from pyspark.sql.types import StringType, StructField, StructType
 
 from src.pipeline import get_spark
+from src.profiling.profiler import profile_dataframe
 from src.reporting.exports import csv_report, excel_report, json_report
 from src.reporting.metrics import quality_metrics
 from src.transformation.classify import classify
@@ -54,6 +55,15 @@ class ValidationPipelineTests(unittest.TestCase):
         self.assertTrue(result.dataset_issues)
         self.assertEqual(result.frame.filter("_dq_is_valid = false").count(), 1)
         self.assertIn("schema_mismatch", result.frame.first()["_dq_issue_codes"])
+
+    def test_profile_reports_raw_and_inferred_types(self):
+        profile = profile_dataframe(self.make_frame())
+        columns = {item["column"]: item for item in profile["columns"]}
+        self.assertEqual(columns["age"]["data_type"], "string")
+        self.assertEqual(columns["age"]["inferred_type"], "numeric")
+        self.assertEqual(columns["phone"]["inferred_type"], "string")
+        self.assertNotIn("numeric", columns["phone"])
+        self.assertEqual(columns["signup_date"]["inferred_type"], "date-like")
 
     def test_exports_include_quarantined_records(self):
         result = validate_dataframe(self.make_frame(), self.config)
