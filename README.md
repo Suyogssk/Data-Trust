@@ -12,7 +12,7 @@ A modular customer-data quality pipeline and Streamlit dashboard. It accepts CSV
 - Optional OpenAI-compatible LLM endpoint; no API key is required for the core application.
 - Unit/integration checks in `tests/`.
 
-The local 10,000-row dataset completed the pipeline in this workspace. That is a functional demonstration, not a benchmark or a claim of large-scale production readiness. Streamlit Community Cloud publication and a public GitHub repository require account/repository access and have not been completed from this workspace.
+The local 10,000-row dataset completed the pipeline in this workspace. That is a functional demonstration, not a benchmark or a claim of large-scale production readiness. The source repository is [Suyogssk/Data-Trust](https://github.com/Suyogssk/Data-Trust); Streamlit Community Cloud publication and a public app URL remain pending.
 
 ## Architecture and quality definitions
 
@@ -91,4 +91,4 @@ The container installs Java 17 and runs Streamlit on port 8501. Docker build was
 
 ## Deployment status
 
-`packages.txt` declares the Java runtime required by Spark on Community Cloud; Streamlit documents `packages.txt` as the mechanism for apt dependencies on its Debian host ([dependency setup](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/app-dependencies)). The code is ready for that deployment flow, but no GitHub repository or Community Cloud app has been created because the workspace has no configured Git remote and no destination repository was provided. Store optional API credentials through the host's secret manager.
+`packages.txt` declares the Java runtime required by Spark on Community Cloud; Streamlit documents `packages.txt` as the mechanism for apt dependencies on its Debian host ([dependency setup](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/app-dependencies)). The source is prepared for deployment from the GitHub repository above. The Community Cloud app and its public URL have not yet been created. Store optional API credentials through the host's secret manager.
