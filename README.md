@@ -79,7 +79,7 @@ docker build -t ai-data-quality-monitor .
 docker run --rm -p 8501:8501 ai-data-quality-monitor
 ```
 
-The container installs Java 17 and runs Streamlit on port 8501. Docker build was not verified because the Docker client could not access the local engine. Local Parquet data and uploads are ephemeral unless a volume is mounted.
+The container installs Java 21 and runs Streamlit on port 8501. Docker build was not verified because the Docker client could not access the local engine. Local Parquet data and uploads are ephemeral unless a volume is mounted.
 
 ## Configuration and limitations
 
@@ -91,4 +91,4 @@ The container installs Java 17 and runs Streamlit on port 8501. Docker build was
 
 ## Deployment status
 
-`packages.txt` declares the Java runtime required by Spark on Community Cloud; Streamlit documents `packages.txt` as the mechanism for apt dependencies on its Debian host ([dependency setup](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/app-dependencies)). To deploy, sign in at [Streamlit Community Cloud](https://share.streamlit.io), create an app from `Suyogssk/Data-Trust`, choose branch `main` and entrypoint `app.py`, then deploy. Choose Python 3.12 in advanced settings. The app runs without secrets; AI credentials are optional. Community Cloud creates the public URL after a successful deployment ([deployment steps](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy)). The app has not yet been created and no public app URL is available.
+`packages.txt` installs OpenJDK 21, which is available on Community Cloud's Debian Trixie host; Spark 4.3 supports Java 17, 21, and 25 ([Spark platform support](https://spark.apache.org/docs/latest/)). Streamlit documents `packages.txt` as the mechanism for apt dependencies on its Debian host ([dependency setup](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/app-dependencies)). To deploy, sign in at [Streamlit Community Cloud](https://share.streamlit.io), create an app from `Suyogssk/Data-Trust`, choose branch `main` and entrypoint `app.py`, then deploy. Choose Python 3.12 in advanced settings. The app runs without secrets; AI credentials are optional. Community Cloud creates the public URL after a successful deployment ([deployment steps](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy)). The app has not yet been created and no public app URL is available.
